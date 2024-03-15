@@ -25,11 +25,8 @@ def connexion():
     # Wait for the command to finish and get the return code
     return_code = process.wait()
 
-    # Check if the command executed successfully
-    if return_code == 0:
-        print("Command executed successfully")
-    else:
-        print("Command failed with return code:", return_code)
+    process = subprocess.Popen(f"sudo nmcli con add type wifi ifname 'wlan0' ssid 'D-Link1' \ncon-name 'localnet' -- wifi-sec.key-mgmt 'wpa-psk' \nwifi-sec.psk '%Fortress123&'", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
 
     return render_template('./connexion.html')
 
