@@ -17,7 +17,8 @@ def connexion():
     ssid = request.form['ssid']
     password = request.form['password']
     appURL = request.form['appURL']
-    print(f"roomName: {roomName}, ssid: {ssid}, password: {password}, appURL: {appURL}")
+    rotation = request.form['rotation']
+    print(f"roomName: {roomName}, ssid: {ssid}, password: {password}, appURL: {appURL}, rotation: {rotation}")
 
     # Execute the command
     process = subprocess.Popen('nmcli con delete localnet', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -29,6 +30,8 @@ def connexion():
     con-name 'localnet' -- wifi-sec.key-mgmt 'wpa-psk' \
     wifi-sec.psk '{password}'", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
+    with open('/home/pi/Desktop/PFE/.env','w') as f:
+        f.write(f"ROOM_NAME={roomName}\nURL_BACKEND={appURL}\nROTATION={rotation}")
 
     return render_template('./connexion.html')
 

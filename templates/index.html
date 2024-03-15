@@ -4,30 +4,46 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Formulaire de connexion</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
   </head>
   <body>
     <div class="container">
       <h2>Formulaire de configuration</h2>
       <form id="configForm" action="/connexion" method="POST">
-        <div class="form-group">
-          <label for="roomName">Nom de la salle :</label>
-          <input type="text" id="roomName" name="roomName"  />
+        <div class="net-group">
+          <div class="form-group">
+            <label for="roomName">Nom de la salle :</label>
+            <input type="text" id="roomName" name="roomName" />
+          </div>
+          <div class="form-group">
+            <label for="rotation">Rotation :</label>
+            <select id="rotation" name="rotation">
+              <option value="0">0°</option>
+              <option value="90">90°</option>
+              <option value="180">180°</option>
+              <option value="270">270°</option>
+            </select>
+          </div>
         </div>
+
         <div class="net-group">
           <div class="form-group">
             <label for="ssid">SSID du réseau :</label>
-            <input type="text" id="ssid" name="ssid"  />
+            <input type="text" id="ssid" name="ssid" />
           </div>
           <div class="form-group">
             <label for="password">Mot de passe :</label>
-            <input type="password" id="password" name="password"  />
+            <input type="password" id="password" name="password" />
           </div>
         </div>
 
         <div class="form-group">
           <label for="appURL">URL de l'application :</label>
-          <input type="text" id="appURL" name="appURL"  />
+          <input type="text" id="appURL" name="appURL" />
         </div>
         <button type="submit" id="submitButton">Se connecter</button>
       </form>
