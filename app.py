@@ -41,6 +41,9 @@ def connexion():
         return render_template('./erreur.html',erreur="Fichier de configuration introuvable")
 
 
+
+    process = subprocess.Popen(f'nmcli connection up localnet', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    
     return render_template('./configurationTermine.html')
 
 if __name__ == '__main__':
