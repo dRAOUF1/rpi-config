@@ -33,8 +33,12 @@ def connexion():
     return_code = process.wait()
     if return_code != 0:
         return render_template('./erreur.html',erreur="Erreur lors de la connexion au réseau wifi")
-    with open('/home/pi/Desktop/PFE/.env','w') as f:
-        f.write(f"ROOM_NAME={roomName}\nURL_BACKEND={appURL}\nROTATION={rotation}")
+    
+    try:
+        with open('/home/pi/Desktop/PFE/.env','w') as f:
+            f.write(f"ROOM_NAME={roomName}\nURL_BACKEND={appURL}\nROTATION={rotation}")
+    except FileNotFoundError:
+        return render_template('./erreur.html',erreur="Fichier de configuration introuvable")
 
 
     return render_template('./configurationTermine.html')
