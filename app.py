@@ -40,16 +40,9 @@ def connexion():
     except FileNotFoundError:
         return render_template('./erreur.html',erreur="Fichier de configuration introuvable")
 
-
-
-    process = subprocess.Popen(f'nmcli connection up localnet', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    return_code = process.wait()
-    if return_code != 0:
-        return render_template('./erreur.html',erreur="Erreur lors de la connexion au réseau wifi")
-    
-    process = subprocess.Popen('sudo systemctl restart startReco.service', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    
+    process = subprocess.Popen('sleep 10 && sudo reboot', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     return render_template('./configurationTermine.html')
+    
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=4999,debug=True)
