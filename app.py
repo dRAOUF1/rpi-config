@@ -47,4 +47,4 @@ def connexion():
     return render_template('./configurationTermine.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='localhost', port=4999,debug=True)
