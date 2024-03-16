@@ -32,7 +32,7 @@ def connexion():
     
     return_code = process.wait()
     if return_code != 0:
-        return render_template('./erreur.html',erreur="Erreur lors de la connexion au réseau wifi")
+        return render_template('./erreur.html',erreur="Erreur lors de la création de la connexion au réseau wifi")
     
     try:
         with open('/home/pi/Desktop/PFE/.env','w') as f:
@@ -43,6 +43,11 @@ def connexion():
 
 
     process = subprocess.Popen(f'nmcli connection up localnet', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    return_code = process.wait()
+    if return_code != 0:
+        return render_template('./erreur.html',erreur="Erreur lors de la connexion au réseau wifi")
+    
+    process = subprocess.Popen('sudo systemctl restart startReco.service', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
     return render_template('./configurationTermine.html')
 
