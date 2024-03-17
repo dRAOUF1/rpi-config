@@ -1,5 +1,7 @@
 from flask import Flask, render_template,request
 import subprocess
+import requests
+import socket
 
 app = Flask(__name__)
 
@@ -19,7 +21,10 @@ def connexion():
     appURL = request.form['appURL']
     rotation = request.form['rotation']
     print(f"roomName: {roomName}, ssid: {ssid}, password: {password}, appURL: {appURL}, rotation: {rotation}")
-
+    hostname = socket.gethostname()
+    IPAddr = socket.gethostbyname(hostname)
+    
+    r = requests.post(f"{appURL}/addRaspberryPi",json={"salle":roomName,"addressIp":IPAddr})
     # Execute the command
     process = subprocess.Popen('nmcli con delete localnet', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
