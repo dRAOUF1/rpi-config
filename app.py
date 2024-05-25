@@ -107,7 +107,7 @@ def run_script():
     # Wait for the process to complete and capture stdout and stderr
     stdout, stderr = process.communicate()
     return_code = process.returncode
-
+    print(process.pid)
     # Write the PID of the new process to the PID file
     with open(PID_FILE, 'w') as f:
         f.write(str(process.pid))
