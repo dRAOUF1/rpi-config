@@ -113,14 +113,14 @@ def run_script():
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
+    with open(PID_FILE, 'w') as f:
+        f.write(str(process.pid))
+    print(process.pid)
 
     # Wait for the process to complete and capture stdout and stderr
     stdout, stderr = process.communicate()
     return_code = process.returncode
-    print(process.pid)
     # Write the PID of the new process to the PID file
-    with open(PID_FILE, 'w') as f:
-        f.write(str(process.pid))
     if return_code != 0:
         return jsonify({'message': 'Erreur lors du lancement du script!', 'error': stderr.decode('utf-8')})
     
