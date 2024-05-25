@@ -62,7 +62,7 @@ def connexion():
     try:
         with open('/home/pi/Desktop/kra/PFE/.env','w') as f:
             f.write(f"MODE={mode}\nROOM_NAME={roomName}\nURL_BACKEND={appURL}\nROTATION={rotation}\n DETECTION_THRESHOLD={detection_threshold/100}\nRECOGNITION_THRESHOLD={recognition_threshold}\nTRACKER_MAX_DISTANCE={tracker_max_distance}\nTRACKER_MAX_FRAME_LOSS={tracker_max_frame_loss}")
-        with open('/.env','w') as f:
+        with open('./.env','w') as f:
             f.write(f"MODE={mode}\nROOM_NAME={roomName}\nURL_BACKEND={appURL}\nROTATION={rotation}\n DETECTION_THRESHOLD={detection_threshold/100}\nRECOGNITION_THRESHOLD={recognition_threshold}\nTRACKER_MAX_DISTANCE={tracker_max_distance}\nTRACKER_MAX_FRAME_LOSS={tracker_max_frame_loss}")
     except FileNotFoundError:
         return render_template('./erreur.html',erreur="Fichier de configuration introuvable")
