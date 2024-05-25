@@ -30,11 +30,11 @@ def connexion():
     ssid = request.form['ssid']
     password = request.form['password']
     appURL = request.form['appURL']
-    rotation = request.form['rotation']
-    detection_threshold = request.form['detection_threshold']
-    recognition_threshold = request.form['recognition_threshold']
-    tracker_max_distance = request.form['tracker_max_distance']
-    tracker_max_frame_loss = request.form['tracker_max_frame_loss']
+    rotation = int(request.form['rotation'])
+    detection_threshold = float(request.form['detection_threshold'])
+    recognition_threshold = float(request.form['recognition_threshold'])
+    tracker_max_distance = float(request.form['tracker_max_distance'])
+    tracker_max_frame_loss = float(request.form['tracker_max_frame_loss'])
     mode = request.form["mode"]
     print(f"roomName: {roomName}, ssid: {ssid}, password: {password}, appURL: {appURL}, rotation: {rotation}, detection_threshold: {detection_threshold}, recognition_threshold: {recognition_threshold}, tracker_max_distance: {tracker_max_distance}, tracker_max_frame_loss: {tracker_max_frame_loss}")
     hostname = socket.gethostname()
