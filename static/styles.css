@@ -106,6 +106,24 @@ input[type="range"] {
   background-color: #074f9b;
 }
 
+.home-button {
+  width: 230px;
+  padding: 10px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 30px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 15px;
+}
+
+/* Advanced button hover effect */
+.home-button:hover {
+  background-color: #074f9b;
+}
+
 /* Submit button styling */
 #submitButton {
   width: 230px;

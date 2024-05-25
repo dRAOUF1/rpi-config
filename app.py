@@ -10,9 +10,9 @@ PID_FILE = 'script.pid'
 #supprimer le fichier PID
 if os.path.exists(PID_FILE):
     os.remove(PID_FILE)
-@app.route('/')
+@app.route('/config')
 def index():
-    load_dotenv() 
+    load_dotenv(override=True) 
     default_values = {
         'mode': os.getenv('MODE', 'reseau'),
         'room_name': os.getenv('ROOM_NAME', ''),
@@ -24,7 +24,11 @@ def index():
         'tracker_max_frame_loss': os.getenv('TRACKER_MAX_FRAME_LOSS', '4')
     }
     # Rendre le fichier HTML index.html
-    return render_template('index.html', default_values=default_values)
+    return render_template('config.html', default_values=default_values)
+
+@app.route('/', methods=['GET'])
+def home():
+    return render_template('index.html')
 
 
 
