@@ -1,4 +1,5 @@
-from flask import Flask, render_template,request
+import signal
+from flask import Flask, jsonify, render_template,request
 import subprocess
 import requests
 import socket, os
@@ -6,6 +7,7 @@ from dotenv import load_dotenv
 
 app = Flask(__name__)
 load_dotenv()
+PID_FILE = 'script.pid'
 @app.route('/')
 def index():
     default_values = {
@@ -71,6 +73,29 @@ def connexion():
         process = subprocess.Popen('sleep 10 && sudo reboot', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     return render_template('./configurationTermine.html')
     
-
+@app.route('/run-script', methods=['POST'])
+def run_script():
+    # Check if PID file exists
+    if os.path.exists(PID_FILE):
+        with open(PID_FILE, 'r') as f:
+            old_pid = int(f.read().strip())
+            try:
+                # Check if the process is still running
+                os.kill(old_pid, 0)
+            except OSError:
+                # Process is not running, ignore
+                pass
+            else:
+                # Kill the old process
+                os.kill(old_pid, signal.SIGTERM)
+    
+    # Start new process
+    process = subprocess.Popen(['python3', '/home/pi/Desktop/kra/PFE/main.py'])
+    
+    # Write the PID of the new process to the PID file
+    with open(PID_FILE, 'w') as f:
+        f.write(str(process.pid))
+    
+    return jsonify({'message': 'Script lancé avec succès!', 'pid': process.pid})
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=4999,debug=True)
