@@ -96,6 +96,8 @@ def run_script():
                 # Kill the old process
                 os.kill(old_pid, signal.SIGTERM)
                 print("Process killed")
+    else:
+        print("PID file does not exist")
     
     # Start new process with stdout and stderr captured
     # process = subprocess.Popen(
