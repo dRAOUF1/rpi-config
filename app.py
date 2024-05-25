@@ -91,7 +91,7 @@ def run_script():
     
     # Start new process with stdout and stderr captured
     process = subprocess.Popen(
-        ['python3', '/home/pi/Desktop/kra/PFE/main.py'],
+        ['python', '/home/pi/Desktop/kra/PFE/main.py'],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
