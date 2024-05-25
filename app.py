@@ -91,11 +91,13 @@ def run_script():
     
     # Start new process
     process = subprocess.Popen(['python3', '/home/pi/Desktop/kra/PFE/main.py'])
+    return_code = process.wait()
     
     # Write the PID of the new process to the PID file
     with open(PID_FILE, 'w') as f:
         f.write(str(process.pid))
-    
+    if return_code != 0:
+        return jsonify({'message': 'Erreur lors du lancement du script!'})
     return jsonify({'message': 'Script lancé avec succès!', 'pid': process.pid})
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=4999,debug=True)
