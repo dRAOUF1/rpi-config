@@ -6,13 +6,13 @@ import socket, os
 from dotenv import load_dotenv
 
 app = Flask(__name__)
-load_dotenv()
 PID_FILE = 'script.pid'
 #supprimer le fichier PID
 if os.path.exists(PID_FILE):
     os.remove(PID_FILE)
 @app.route('/')
 def index():
+    load_dotenv() 
     default_values = {
         'mode': os.getenv('MODE', 'reseau'),
         'room_name': os.getenv('ROOM_NAME', ''),
@@ -45,6 +45,18 @@ def connexion():
     hostname = socket.gethostname()
     IPAddr = socket.gethostbyname(hostname)
     
+
+    
+    
+    try:
+        with open('/home/pi/Desktop/kra/PFE/.env','w') as f:
+            f.write(f"MODE={mode}\nROOM_NAME={roomName}\nURL_BACKEND={appURL}\nROTATION={rotation}\n DETECTION_THRESHOLD={detection_threshold/100}\nRECOGNITION_THRESHOLD={recognition_threshold}\nTRACKER_MAX_DISTANCE={tracker_max_distance}\nTRACKER_MAX_FRAME_LOSS={tracker_max_frame_loss}")
+        with open('./.env','w') as f:
+            f.write(f"MODE={mode}\nROOM_NAME={roomName}\nURL_BACKEND={appURL}\nROTATION={rotation}\n DETECTION_THRESHOLD={detection_threshold/100}\nRECOGNITION_THRESHOLD={recognition_threshold}\nTRACKER_MAX_DISTANCE={tracker_max_distance}\nTRACKER_MAX_FRAME_LOSS={tracker_max_frame_loss}")
+    except FileNotFoundError:
+        return jsonify({'message': "Fichier de configuration introuvable"})
+        
+        
     if mode=="reseau":
         #r = requests.post(f"{appURL}/addRaspberryPi",json={"salle":roomName,"addressIp":IPAddr})
         # Execute the command
@@ -57,24 +69,12 @@ def connexion():
         con-name 'localnet' -- wifi-sec.key-mgmt 'wpa-psk' \
         wifi-sec.psk '{password}'", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
+        process = subprocess.Popen('sleep 10 && sudo reboot', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         return_code = process.wait()
         # if return_code != 0:
         #     return render_template('./erreur.html',erreur="Erreur lors de la création de la connexion au réseau wifi")
     
-
-    
-    
-    try:
-        with open('/home/pi/Desktop/kra/PFE/.env','w') as f:
-            f.write(f"MODE={mode}\nROOM_NAME={roomName}\nURL_BACKEND={appURL}\nROTATION={rotation}\n DETECTION_THRESHOLD={detection_threshold/100}\nRECOGNITION_THRESHOLD={recognition_threshold}\nTRACKER_MAX_DISTANCE={tracker_max_distance}\nTRACKER_MAX_FRAME_LOSS={tracker_max_frame_loss}")
-        with open('./.env','w') as f:
-            f.write(f"MODE={mode}\nROOM_NAME={roomName}\nURL_BACKEND={appURL}\nROTATION={rotation}\n DETECTION_THRESHOLD={detection_threshold/100}\nRECOGNITION_THRESHOLD={recognition_threshold}\nTRACKER_MAX_DISTANCE={tracker_max_distance}\nTRACKER_MAX_FRAME_LOSS={tracker_max_frame_loss}")
-    except FileNotFoundError:
-        return render_template('./erreur.html',erreur="Fichier de configuration introuvable")
-
-    if mode=="reseau":
-        process = subprocess.Popen('sleep 10 && sudo reboot', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    return render_template('./configurationTermine.html')
+    return jsonify({'message': 'Coniguration effectué avec succès!'})
     
 @app.route('/run-script', methods=['POST'])
 def run_script():
