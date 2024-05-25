@@ -8,6 +8,9 @@ from dotenv import load_dotenv
 app = Flask(__name__)
 load_dotenv()
 PID_FILE = 'script.pid'
+#supprimer le fichier PID
+if os.path.exists(PID_FILE):
+    os.remove(PID_FILE)
 @app.route('/')
 def index():
     default_values = {
@@ -77,17 +80,22 @@ def connexion():
 def run_script():
     # Check if PID file exists
     if os.path.exists(PID_FILE):
+        print("PID file exists")
+        print("Killing old process")
         with open(PID_FILE, 'r') as f:
             old_pid = int(f.read().strip())
+            print("old pid",old_pid)
             try:
                 # Check if the process is still running
                 os.kill(old_pid, 0)
+                print("Process killed")
             except OSError:
                 # Process is not running, ignore
                 pass
             else:
                 # Kill the old process
                 os.kill(old_pid, signal.SIGTERM)
+                print("Process killed")
     
     # Start new process with stdout and stderr captured
     # process = subprocess.Popen(
